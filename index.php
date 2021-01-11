@@ -5,7 +5,8 @@
 <article class="newPost">
     <button class="btn"><a href="/newpost.php">Create new post</button></a>
 </article>
-
+<br>
+<br>
 
 <div class="postWrapper">
     <div class="postHeadline">

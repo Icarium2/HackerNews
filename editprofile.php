@@ -2,7 +2,7 @@
 <?php require __DIR__ . '/views/header.php'; ?>
 
 
-EDIT PROFILE HERE FFS
+EDIT PROFILE HERE FFS ((FORMS))
 
 
 <?php require __DIR__ . '/views/footer.php'; ?>

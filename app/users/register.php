@@ -13,13 +13,13 @@ if (
     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
 
-    if (emailInUse($email, $pdo)) {
+    if (emailTaken($email, $pdo)) {
 
         redirect('/register.php');
     
     }
 
-    if (handleInUse($username, $pdo)) {
+    if (handleTaken($username, $pdo)) {
         
         redirect('/register.php');
     }
