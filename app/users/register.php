@@ -14,30 +14,25 @@ if (
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
 
     if (emailInUse($email, $pdo)) {
-
+        
         redirect('/register.php');
     }
 
     if (handleInUse($username, $pdo)) {
- 
+        
         redirect('/register.php');
     }
 
-    $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
+    $pwd= trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
     $firstName = 'First Name';
     $lastName = 'Last Name';
 
     $stmnt = $pdo->prepare('INSERT INTO users (email, username, password, first_name, last_name) 
     VALUES (:email, :username, :password, :first_name, :last_name)');
 
-    if (!$stmnt) {
-        die(var_dump($pdo->errorInfo()));
-    }
-
-
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
-    $stmnt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmnt->bindParam(':password', $pwd, PDO::PARAM_STR);
     $stmnt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
     $stmnt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
     $stmnt->execute();

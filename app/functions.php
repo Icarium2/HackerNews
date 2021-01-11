@@ -11,8 +11,7 @@ function redirect(string $path){
 //Logic for the login-system
 
 //Searches database for given email
-function emailInUse(string $email, object $pdo): bool
-{
+function emailInUse(string $email, object $pdo): bool{
 
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -28,8 +27,7 @@ function emailInUse(string $email, object $pdo): bool
 }
 
 //Searches database for given username
-function handleInUse(string $username, object $pdo): bool
-{
+function handleInUse(string $username, object $pdo): bool{
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmnt->execute();
@@ -41,6 +39,14 @@ function handleInUse(string $username, object $pdo): bool
     }
 
     return false;
+}
+
+//Check if session is logged in on a user
+
+function loggedIn(): bool{
+
+    return isset($_SESSION['user']);
+
 }
 
 
