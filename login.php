@@ -17,7 +17,7 @@
             <input class="form-control" type="password" name="password" id="password" placeholder="password" required>
             <small class="form-text text-muted">Please provide your password (passphrase).</small>
         </div><!-- /form-group -->
-        
        <br><button type="submit" class="btn btn-primary">Login</button>
     </form><br><br>
+    <h2>Not a user yet? Sign up <a href="/register.php">here!</a></h2>
 <?php require __DIR__ . '/views/footer.php'; ?>
