@@ -1,21 +1,32 @@
 <?php require __DIR__ . '/app/autoload.php'; ?>
 <?php require __DIR__ . '/views/header.php'; ?>
 
-<article>
-    <h1 class="introduction"><?php echo $config['title']; ?></h1>
-    <?php if (isset($_SESSION['user'])) : ?>
-        <p>Welcome, <?php echo $_SESSION['user']['username']; ?>!</p>
-    <?php endif; ?>
+<h1><?php echo $config['title']; ?></h1>
+<article class="newPost">
+    <button class="btn"><a href="/newpost.php">Create new post</button></a>
 </article>
 
-<div class="contentPostWrapper">
-    <div class="contentHeadline">
-    <p class="author"></p>
-    <img src="" alt="" class="postImg">
-        <div class="contentPost">
-            <p class="upvotes"></p>       
+
+<div class="postWrapper">
+    <div class="postHeadline">
+        <a href="url">
+           <h2 class="headline">This is the headline</h2>
+           <br>
+        </a>
+    </div>
+    <p class="postAuthor">Author of the post</p>
+    <div class="postInformation">
+        <a href="postComments">
+            <p>comments</p>          
+        </a>
+        <a href="postUpvotes">
+             <p>1042</p>  
+        </a>
+
+    
+
         
-        </div>
+        
     </div>
 </div>
 

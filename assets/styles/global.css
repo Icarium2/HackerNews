@@ -12,10 +12,6 @@ body {
 h1 {
   color: white;
 }
-.introduction,
-p {
-  color: white;
-}
 a {
   text-decoration: none;
   color: white;
@@ -25,5 +21,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4vh;
+  margin-top: 2vh;
+  max-height: 100%;
+  flex-direction: column;
 }
