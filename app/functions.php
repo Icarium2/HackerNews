@@ -41,12 +41,15 @@ function handleInUse(string $username, object $pdo): bool{
     return false;
 }
 
-//Check if session is logged in on a user
+//Check session for a logged in user
 
 function loggedIn(): bool{
 
     return isset($_SESSION['user']);
 
 }
+
+//Logic for profile page functionality
+
 
 

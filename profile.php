@@ -7,13 +7,14 @@
     
 
 
-<article class="profile">
-    <div class="profileWrapper">
+<article class="profileWrapper">
+    <div class="profile">
         <h1>Profile</h1>
         <div class="profileImg">
         <div class="bio">
-
-
+        <div class="postComments">
+        
+        </div>
         </div>
         </div>
     </div>
