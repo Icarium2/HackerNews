@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 function redirect(string $path){
@@ -9,9 +8,8 @@ function redirect(string $path){
 
 
 
+//Checks database for a user connected to the current user-id
 
-
-//Checks database for a user connected to a given user-id
 
 
 //Logic for the login-system
@@ -26,6 +24,7 @@ function emailTaken(string $email, object $pdo): bool{
     $email = $stmnt->fetch(PDO::FETCH_ASSOC);
 
     if ($email){
+
         return true;
     }
 
@@ -34,6 +33,7 @@ function emailTaken(string $email, object $pdo): bool{
 
 //Searches database for given username
 function handleTaken(string $username, object $pdo): bool{
+
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmnt->execute();
@@ -41,6 +41,7 @@ function handleTaken(string $username, object $pdo): bool{
     $user = $stmnt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
+
         return true;
     }
 
