@@ -9,18 +9,13 @@
 </article>
 
 <div class="contentPostWrapper">
-    <div class="contentPost">
+    <div class="contentHeadline">
+    <p class="author"></p>
+    <img src="" alt="" class="postImg">
+        <div class="contentPost">
+            <p class="upvotes"></p>       
         
-
-
-
-
-
-
-
-
-
-
+        </div>
     </div>
 </div>
 

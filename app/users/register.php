@@ -14,8 +14,9 @@ if (
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
 
     if (emailInUse($email, $pdo)) {
-        
+
         redirect('/register.php');
+    
     }
 
     if (handleInUse($username, $pdo)) {

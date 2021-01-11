@@ -25,7 +25,7 @@
             placeholder="Password" 
             required>           
         </div><!-- /form-group -->
-       <br><button type="submit" class="btn btn-primary">Login</button>
+       <br><button type="submit" class="btn loginBtn">Login</button>
     </form><br><br>
 
     <h2>Not a user yet? Sign up <a href="/register.php">here!</a></h2>

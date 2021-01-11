@@ -19,7 +19,7 @@
         </div>
         </div>
     </div>
-<button class="editProfile"><a href="/editprofile.php">EDIT PROFILE</a></button>
+<button class="editProfileBtn"><a href="/editprofile.php">EDIT PROFILE</a></button>
 
 </section>
 
