@@ -7,21 +7,19 @@
     
 
 
-<section class="profile">
+<article class="profile">
     <div class="profileWrapper">
         <h1>Profile</h1>
         <div class="profileImg">
         <div class="bio">
-        
-
 
 
         </div>
         </div>
     </div>
-<button class="editProfileBtn"><a href="/editprofile.php">EDIT PROFILE</a></button>
+<button class="btn editProfileBtn"><a href="/editprofile.php">EDIT PROFILE</a></button>
 
-</section>
+</article>
 
 
 
