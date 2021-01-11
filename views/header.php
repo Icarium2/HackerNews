@@ -9,7 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles/app.css">
-    <link rel="stylesheet" href="/assets/styles/forms.css">
+    <link rel="stylesheet" href="/assets/styles/loginregister.css">
+    <link rel="stylesheet" href="/assets/styles/feed.css">
+    <link rel="stylesheet" href="/assets/styles/profile.css">
 </head>
 
 <body>
