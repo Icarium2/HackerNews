@@ -17,7 +17,9 @@ function userById(int $usrID, object $pdo): array
     $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
     $stmnt->execute();
     $usr = $stmnt->fetch(PDO::FETCH_ASSOC);
-
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
     if ($usr) {
         return $usr;
     }

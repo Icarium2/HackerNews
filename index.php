@@ -22,12 +22,7 @@
         </a>
         <a href="postUpvotes">
              <p>1042</p>  
-        </a>
-
-    
-
-        
-        
+        </a>    
     </div>
 </div>
 
