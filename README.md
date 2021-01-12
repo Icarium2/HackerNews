@@ -35,3 +35,13 @@ General requirements:
 - The project should not include any coding errors, warning or notices.
 - The project must be tested on at least two of your classmates computers. Add the testers name to the README.md file.
 - The project must receive a code review by another student. Add at least 10 comments to the student's README.md file through a pull request. Give feedback to the student below your name. The last student gives feedback to the first student in the list. Add your feedback one day before the presentation.
+
+To access this project:
+
+Clone the repository through the terminal
+`$ git clone https://github.com/Icarium2/HackerNews/ `
+or through Github Desktop.
+
+Use the command-line to navigate to the repository, fire up your local server with
+`$ php -S localhost:8000` (or whatever you like to use)
+and get to using the project by navigating to localhost:8000/index.php.
