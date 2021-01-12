@@ -19,17 +19,13 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     }
 
     $pwd = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
-    $firstName = 'First Name';
-    $lastName = 'Last Name';
 
-    $stmnt = $pdo->prepare('INSERT INTO users (email, username, password, first_name, last_name) 
-    VALUES (:email, :username, :password, :first_name, :last_name)');
+    $stmnt = $pdo->prepare('INSERT INTO users (email, username, password) 
+    VALUES (:email, :username, :password)');
 
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmnt->bindParam(':password', $pwd, PDO::PARAM_STR);
-    $stmnt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
-    $stmnt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
     $stmnt->execute();
 }
 

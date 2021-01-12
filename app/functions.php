@@ -41,7 +41,7 @@ function postsArray(PDO $pdo): array
 }
 
 //Logic for the login-system
-//Searches database for given email
+//Searches database for desired email
 function emailTaken(string $email, object $pdo): bool
 {
 
@@ -58,7 +58,7 @@ function emailTaken(string $email, object $pdo): bool
     return false;
 }
 
-//Searches database for given username
+//Searches database for desired username
 function handleTaken(string $username, object $pdo): bool
 {
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
