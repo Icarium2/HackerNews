@@ -65,7 +65,14 @@
         <div class="form-group">
             <input class="form-control" 
             type="password" 
-            name="new-password" 
+            name="pwd" 
+            id="password"
+            required>
+            <small class="form-text text-muted">Current password</small>
+        <div class="form-group">
+            <input class="form-control" 
+            type="password" 
+            name="edit-password" 
             id="password"
             required>
             <small class="form-text text-muted">New Password</small>
