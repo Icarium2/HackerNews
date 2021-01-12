@@ -10,7 +10,7 @@ function redirect(string $path)
 
 
 //Logic for extracting data from DB and storing in functions for later use.
-//Checks database for a user connected to the current user-id
+//Checks database for a user connected to the current id on the session
 function userById(int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE id = :id');

@@ -3,7 +3,7 @@
 
 
 <form action="/app/users/editavatar.php" 
-    method="POST"   
+    method="post"   
     enctype="multipart/form-data">
     <label for="file">Upload profile image(jpg, jpeg, png)</label>
     <br>
@@ -23,7 +23,7 @@
     <label for="bio">Edit Bio</label>
     <div class="form-group">
         <textarea 
-        name="bio" 
+        name="edit-bio" 
         cols="30"
         rows="5"></textarea>
     </div>
@@ -41,6 +41,8 @@
                 placeholder="Username"
                 required>
     </div><br>
+    <button type="submit" class="btn">Save</button>
+    <br>
 </form>
 
 <form action="app/users/editemail.php" 
@@ -49,7 +51,10 @@
         <div class="form-group">
             <input class="form-control" 
             type="email" 
-            name="new-email">
+            name="edit-email"
+            placeholder="new email"
+            required>
+            
         </div>
         <button type="submit" class="btn">Save</button>
 </form>
@@ -61,14 +66,16 @@
             <input class="form-control" 
             type="password" 
             name="new-password" 
-            id="password">
+            id="password"
+            required>
             <small class="form-text text-muted">New Password</small>
         </div>
         <div class="form-group">
             <input class="form-control" 
             type="password" 
             name="confirm-password" 
-            id="password">
+            id="password"
+            required>
             <small class="form-text text-muted">Confirm New Password</small>
         </div>
         <button type="submit" class="btn">Save changes</button>
