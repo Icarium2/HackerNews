@@ -3,7 +3,7 @@
 
 <?php if (!isset($_SESSION['user'])) : ?>
        <?php redirect('/login.php'); ?>
-    <?php endif; ?>
+<?php endif; ?>
     
 
 
