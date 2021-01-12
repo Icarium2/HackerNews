@@ -16,9 +16,6 @@
         </div>
         <div class="bio">
             <h2>Bio</h2>
-            <div class="fullName">
-            <h3>First name</h3>
-            <h3>Last name </h3>
             </div>
             <p> In here you read your biography</p>
         </div>

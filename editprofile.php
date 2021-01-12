@@ -5,7 +5,7 @@
 <form action="/app/users/editavatar.php" 
     method="POST"   
     enctype="multipart/form-data">
-    <label for="file">Upload profile image</label>
+    <label for="file">Upload profile image(jpg, jpeg, png)</label>
     <br>
     <div class="form-group">
         <input type="file"
