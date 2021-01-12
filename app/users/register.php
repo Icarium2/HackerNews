@@ -6,23 +6,22 @@ require __DIR__ . '/../autoload.php';
 
 // In this file we register a new user.
 
-if(isset($_POST['email'], $_POST['username'], $_POST['password'])) {
+if (isset($_POST['email'], $_POST['username'], $_POST['password'])){
 
     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
 
-    if (emailTaken($email, $pdo)) {
+    if (emailTaken($email, $pdo)){
 
         redirect('/register.php');
-    
     }
 
-    if (handleTaken($username, $pdo)) {
+    if (handleTaken($username, $pdo)){
         
         redirect('/register.php');
     }
 
-    $pwd= trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
+    $pwd = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
     $firstName = 'First Name';
     $lastName = 'Last Name';
 
@@ -35,14 +34,9 @@ if(isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     $stmnt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
     $stmnt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
     $stmnt->execute();
-
-
 }
 
 redirect('/login.php');
-
-
-
 
 
 
