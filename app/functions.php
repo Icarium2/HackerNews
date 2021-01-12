@@ -34,7 +34,8 @@ function emailTaken(string $email, object $pdo): bool
 }
 
 //Searches database for given username
-function handleTaken(string $username, object $pdo): bool {
+function handleTaken(string $username, object $pdo): bool
+{
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmnt->execute();
@@ -52,10 +53,6 @@ function handleTaken(string $username, object $pdo): bool {
 function loggedIn(): bool
 {
     return isset($_SESSION['user']);
-    
 }
 
 //Logic for profile page functionality
-
-
-
