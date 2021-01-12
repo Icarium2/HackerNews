@@ -9,13 +9,36 @@ function redirect(string $path)
 }
 
 
-
+//Logic for extracting data from DB and storing in functions for later use.
 //Checks database for a user connected to the current user-id
+function userById(int $usrID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT * FROM users WHERE id = :id');
+    $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $usr = $stmnt->fetch(PDO::FETCH_ASSOC);
 
+    if ($usr) {
+        return $usr;
+    }
+}
+//Getting all posts, and pairing with the usernames of posters.
+function postsArray(PDO $pdo): array
+{
+    $stmnt = $pdo->query('SELECT posts.*, users.username FROM posts 
+    INNER JOIN users 
+    ON posts.user_id = users.id 
+    ORDER BY posts.date DESC');
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+    $stmnt->execute();
+    $allPosts = $stmnt->fetchAll(PDO::FETCH_ASSOC);
 
+    return $allPosts;
+}
 
 //Logic for the login-system
-
 //Searches database for given email
 function emailTaken(string $email, object $pdo): bool
 {
