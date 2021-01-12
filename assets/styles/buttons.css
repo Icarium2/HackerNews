@@ -5,9 +5,11 @@
   height: 50px;
   width: 80px;
   background-color: red;
+  color: white;
 }
 
 .btn:hover {
   background-color: yellow;
   box-shadow: inset;
+  color: black;
 }

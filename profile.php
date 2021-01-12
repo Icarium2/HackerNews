@@ -5,8 +5,6 @@
        <?php redirect('/login.php'); ?>
 <?php endif; ?>
     
-
-
 <article class="profileWrapper">
     <div class="profile">
         <div class="user">
@@ -36,7 +34,6 @@
     <button class="btn editProfileBtn"><a href="/editprofile.php">EDIT PROFILE</a></button>
     <p>Click this button to edit your account and profile</p>
     </div>
-
 </article>
 
 
