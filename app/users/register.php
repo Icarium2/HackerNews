@@ -14,7 +14,7 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
         redirect('/register.php');
     }
 
-    if (handleTaken($username, $pdo)) {  
+    if (handleTaken($username, $pdo)) {
         redirect('/register.php');
     }
 

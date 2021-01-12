@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-function redirect(string $path){
+function redirect(string $path)
+{
     header("Location: ${path}");
     exit;
 }
@@ -16,7 +17,8 @@ function redirect(string $path){
 //Logic for the login-system
 
 //Searches database for given email
-function emailTaken(string $email, object $pdo): bool{
+function emailTaken(string $email, object $pdo): bool
+{
 
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -24,8 +26,7 @@ function emailTaken(string $email, object $pdo): bool{
 
     $email = $stmnt->fetch(PDO::FETCH_ASSOC);
 
-    if ($email){
-
+    if ($email) {
         return true;
     }
 
@@ -33,8 +34,7 @@ function emailTaken(string $email, object $pdo): bool{
 }
 
 //Searches database for given username
-function handleTaken(string $username, object $pdo): bool{
-
+function handleTaken(string $username, object $pdo): bool {
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmnt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmnt->execute();
@@ -42,19 +42,17 @@ function handleTaken(string $username, object $pdo): bool{
     $user = $stmnt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-
         return true;
     }
-
     return false;
 }
 
 //Check session for a logged in user
 
-function loggedIn(): bool{
-
+function loggedIn(): bool
+{
     return isset($_SESSION['user']);
-
+    
 }
 
 //Logic for profile page functionality
