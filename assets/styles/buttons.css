@@ -13,3 +13,18 @@
   box-shadow: inset;
   color: black;
 }
+
+.upvoteBtn {
+  background-color: transparent;
+  border: none;
+}
+
+.upvoteBtn img {
+  box-shadow: none;
+  width: 30px;
+  height: 60px;
+}
+
+.upvoteBtn img:hover {
+  opacity: 0.7;
+}

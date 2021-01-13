@@ -16,8 +16,27 @@ function loggedIn(): bool
     return isset($_SESSION['user']);
 }
 
-//Counts number of posts posted by current id on session
-function postsByCurrentUser(int $usrID, object $pdo): array
+
+//Checks if current user has upvoted post - upvotes if no
+function toggleUpvote(int $postID, object $pdo): bool
+{   $usr = $_SESSION['user']['id'];
+    $stmnt = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+    
+    $stmnt->execute([
+        ':user_id' => $usr,
+        ':post_id' => $postID    
+    ]);
+
+    $upvoted = $stmnt->fetch(PDO::FETCH_ASSOC);
+    return $upvoted ? true : false;
+}
+
+
+//Counts the number of comments a post has
+
+
+//Counts number of posts posted by current session-id
+function postsByCurrentUser (int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(posts.user_id) AS userPosts
     FROM posts INNER JOIN users ON users.id=posts.user_id 
@@ -43,6 +62,35 @@ function currentUserUpvoted(int $usrID, object $pdo): array
     }
 }
 
+//Counts number of upvotes a post has
+function numberOfUpvotes(int $postID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT count(upvotes.post_id) AS numberOfUpvotes
+    FROM upvotes INNER JOIN posts ON posts.id=upvotes.post_id
+    WHERE post_id = :id');
+    $stmnt->bindParam(':id', $postID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $upvotesNumber = $stmnt->fetch(PDO::FETCH_ASSOC);
+    if ($upvotesNumber) {
+        return $upvotesNumber;
+    }
+}
+
+//counts the number of comments a post has 
+function numberOfComments(int $postID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT count(comments.post_id) AS numberOfComments
+    FROM comments INNER JOIN posts ON posts.id=comments.post_id
+    WHERE post_id = :id');
+    $stmnt->bindParam(':id', $postID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $commentsNumber = $stmnt->fetch(PDO::FETCH_ASSOC);
+    if ($commentsNumber) {
+        return $commentsNumber;
+    }
+}
+
+
 
 //Checks database for a user connected to the current id on the session
 function userById(int $usrID, object $pdo): array
@@ -59,8 +107,8 @@ function userById(int $usrID, object $pdo): array
     }
 }
 
-//Getting all posts, and pairing with the usernames of posters.
-function postsArray(PDO $pdo): array
+//Getting all posts, and pairing with the usernames of posters, sorting by date.
+function postsArrayByDate(PDO $pdo): array
 {
     $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts 
     INNER JOIN users 
@@ -74,6 +122,27 @@ function postsArray(PDO $pdo): array
 
     return $allPosts;
 }
+
+
+/*
+//Getting all posts, and pairing with the usernames of posters, sorting by upvotes.
+function postsArrayByDate(PDO $pdo): array
+{
+    $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts 
+    INNER JOIN users 
+    ON posts.user_id = users.id 
+    ORDER BY posts.date DESC');
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+    $stmnt->execute();
+    $allPosts = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $allPosts;
+}
+*/
+
+
 
 //Logic for the login-system
 //Searches database for desired email
