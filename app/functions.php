@@ -79,11 +79,9 @@ function postsArray(PDO $pdo): array
 //Searches database for desired email
 function emailTaken(string $email, object $pdo): bool
 {
-
     $stmnt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmnt->execute();
-
     $email = $stmnt->fetch(PDO::FETCH_ASSOC);
 
     if ($email) {
