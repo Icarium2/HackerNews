@@ -36,6 +36,7 @@
     <p>Click this button to edit your account and profile</p>
     </div>
 </article>
+</div>
 
 
 

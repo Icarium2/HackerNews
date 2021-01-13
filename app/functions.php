@@ -87,8 +87,7 @@ function emailTaken(string $email, object $pdo): bool
     if ($email) {
         return true;
     }
-
-    return false;
+        return false;
 }
 
 //Searches database for desired username
