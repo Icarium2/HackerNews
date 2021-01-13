@@ -29,6 +29,19 @@ function postsByCurrentUser(int $usrID, object $pdo): array
         return $usr;
     }
 }
+//Counts number of upvotes on posts by current session-id
+function currentUserUpvoted(int $usrID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT count(upvotes.user_id) AS totalUpvotes
+    FROM upvotes INNER JOIN users ON users.id=upvotes.user_id 
+    where user_id = :id');
+    $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $usr = $stmnt->fetch(PDO::FETCH_ASSOC);
+    if ($usr) {
+        return $usr;
+    }
+}
 
 
 //Checks database for a user connected to the current id on the session
@@ -95,4 +108,4 @@ function handleTaken(string $username, object $pdo): bool
     return false;
 }
 
-//Logic for profile page functionality
+

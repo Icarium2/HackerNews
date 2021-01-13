@@ -6,6 +6,7 @@
 <?php endif; ?>
 <?php $currentUser = userByID($_SESSION['user']['id'], $pdo);?>
 <?php $numberOfPosts = postsByCurrentUser($_SESSION['user']['id'], $pdo); ?>
+<?php $totalUpvotes = currentUserUpvoted($_SESSION['user']['id'], $pdo); ?>
 
 <article class="profileWrapper">
     <div class="profile">
@@ -22,10 +23,10 @@
             <p><?php echo $currentUser['bio'] ?></p>
         </div>
         <div class="postInfo">
-            <p>Posts:</p>
-            <p><?php echo $numberOfPosts['userPosts']; ?>
+            <p>Posts: <?php echo $numberOfPosts['userPosts']; ?></p>
+            
             <br>
-            <p>Upvotes:</p>  
+            <p>Upvoted: <?php echo $totalUpvotes['totalUpvotes']; ?> times </p>  
             <br>
             <br>    
         </div>

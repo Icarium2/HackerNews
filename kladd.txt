@@ -1,0 +1,4 @@
+        <?php foreach ($postsArray as $posts) : ?>
+            <?php $currentUser = $_SESSION['user']['id']; ?>
+            <?php $postUserID = $posts['user_id']; ?>
+            <?php $ ?>
