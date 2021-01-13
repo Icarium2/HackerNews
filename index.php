@@ -8,37 +8,6 @@
 <br>
 <br>
 
-<div class="postWrapper">
-    <div class="postHeadline">
-        <a href="/post.php">
-           <h2 class="headline">This is the headline</h2>
-           <br>
-        </a>
-    </div>
-    <p class="postAuthor">Author of the post</p>
-    <div class="postInformation">
-        <a href="/post.php">
-            <p>comments</p>          
-        </a>
-        <a href="postUpvotes">
-             <p>1042</p>  
-        </a>    
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

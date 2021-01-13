@@ -4,25 +4,28 @@
 <?php if (!isset($_SESSION['user'])) : ?>
        <?php redirect('/login.php'); ?>
 <?php endif; ?>
-    
+<?php $currentUser = userByID($_SESSION['user']['id'], $pdo);?>
+<?php $numberOfPosts = postsByCurrentUser($_SESSION['user']['id'], $pdo); ?>
+
 <article class="profileWrapper">
     <div class="profile">
         <div class="user">
         <h1>User</h1>
         <div class="profileImg">
-            <img src="/assets/images/placeholder.png" 
+            <img src="<?php echo $currentUser['avatar']?>" 
             alt="placeholder image">
         </div>
         </div>
         <div class="bio">
             <h2>Bio</h2>
             </div>
-            <p> In here you read your biography</p>
+            <p><?php echo $currentUser['bio'] ?></p>
         </div>
         <div class="postInfo">
             <p>Posts:</p>
+            <p><?php echo $numberOfPosts['userPosts']; ?>
             <br>
-            <p>Upvotes</p>  
+            <p>Upvotes:</p>  
             <br>
             <br>    
         </div>

@@ -6,8 +6,6 @@ require __DIR__ . '/../autoload.php';
 
 // In this file we store/insert new posts in the database.
 
-
-
 if (!loggedIn()) {
     redirect('/');
 }

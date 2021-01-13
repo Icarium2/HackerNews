@@ -9,9 +9,7 @@ if (!loggedIn()) {
 
 <div class="createPostContainer">
     <form action="/app/posts/store.php" 
-    method="post" 
-    enctype="multipart/form-data">
-
+    method="post">
         <label for="title">Title</label>
         <br>
         <input type="text" 

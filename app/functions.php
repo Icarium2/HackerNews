@@ -8,8 +8,29 @@ function redirect(string $path)
     exit;
 }
 
-
 //Logic for extracting data from DB and storing in functions for later use.
+
+//Check session for a logged in user
+function loggedIn(): bool
+{
+    return isset($_SESSION['user']);
+}
+
+//Counts number of posts posted by current id on session
+function postsByCurrentUser(int $usrID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT count(posts.user_id) AS userPosts
+    FROM posts INNER JOIN users ON users.id=posts.user_id 
+    where user_id = :id');
+    $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $usr = $stmnt->fetch(PDO::FETCH_ASSOC);
+    if ($usr) {
+        return $usr;
+    }
+}
+
+
 //Checks database for a user connected to the current id on the session
 function userById(int $usrID, object $pdo): array
 {
@@ -24,10 +45,11 @@ function userById(int $usrID, object $pdo): array
         return $usr;
     }
 }
+
 //Getting all posts, and pairing with the usernames of posters.
 function postsArray(PDO $pdo): array
 {
-    $stmnt = $pdo->query('SELECT posts.*, users.username FROM posts 
+    $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts 
     INNER JOIN users 
     ON posts.user_id = users.id 
     ORDER BY posts.date DESC');
@@ -71,13 +93,6 @@ function handleTaken(string $username, object $pdo): bool
         return true;
     }
     return false;
-}
-
-//Check session for a logged in user
-
-function loggedIn(): bool
-{
-    return isset($_SESSION['user']);
 }
 
 //Logic for profile page functionality

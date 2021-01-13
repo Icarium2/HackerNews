@@ -19,7 +19,7 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     }
 
     $pwd = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
-    $avatar = '/../images/placeholder.png';
+    $avatar = '/assets/images/placeholder.png';
     $bio = '';
 
 

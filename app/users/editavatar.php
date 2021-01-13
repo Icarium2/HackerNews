@@ -12,7 +12,7 @@ if (isset($_FILES['avatar'])) {
     $fileName = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
     $time = date('ymd');
 
-    $updateAvatar = $time . '-' . $username . '.' . $fileName;
+    $updateAvatar = "/app/uploads/" . $time . '-' . $username . '.' . $fileName;
 
     $stmnt = $pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
 
@@ -25,3 +25,4 @@ if (isset($_FILES['avatar'])) {
 }
 
 redirect('/');
+
