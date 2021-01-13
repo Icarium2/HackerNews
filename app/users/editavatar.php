@@ -8,11 +8,11 @@ if (isset($_FILES['avatar'])) {
     $avatar = $_FILES['avatar'];
     $usrID = (int) $_SESSION['user']['id'];
     $username = $_SESSION['user']['username'];
-    $path = __DIR__ . '/../uploads/';
+    $path = __DIR__ . '/uploads/';
     $fileName = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
     $time = date('ymd');
 
-    $updateAvatar = "/app/uploads/" . $time . '-' . $username . '.' . $fileName;
+    $updateAvatar = $time . '-' . $username . '.' . $fileName;
 
     $stmnt = $pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
 
@@ -24,5 +24,5 @@ if (isset($_FILES['avatar'])) {
     move_uploaded_file($avatar['tmp_name'], $path . $updateAvatar);
 }
 
-redirect('/');
+redirect('/profile.php');
 

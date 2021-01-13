@@ -10,10 +10,10 @@
 <article class="profileWrapper">
     <div class="profile">
         <div class="user">
-        <h1>User</h1>
+        <h1><?php echo $_SESSION['user']['username']; ?></h1>
         <div class="profileImg">
-            <img src="<?php echo $currentUser['avatar']?>" 
-            alt="placeholder image">
+            <img src="<?php echo '/app/users/uploads/' . $currentUser['avatar'];?>" 
+            alt="user-avatar">
         </div>
         </div>
         <div class="bio">
