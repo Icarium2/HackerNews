@@ -1,10 +1,10 @@
 <?php require __DIR__ . '/app/autoload.php'; ?>
 <?php require __DIR__ . '/views/header.php'; ?>
 
-<a href="viewbyupvotes.php"><button>Sort by upvotes</button></a>
+<a href="index.php"><button>Sort by date</button></a>
 
 <?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
-<?php $postsArray = postsArrayByDate($pdo) ;?>       
+<?php $postsArray = postsArrayByUpvotes($pdo) ;?>       
 
 
 <h1><?php echo $config['title']; ?></h1>
@@ -13,17 +13,17 @@
 </section>
 <br>
 <br>
-<div class="byDateWrapper">
+<div class="byUpvoteWrapper">
     <section class="posts">   
         <?php foreach ($postsArray as $posts) : ?>
             <a href="post.php?id=<?php echo $posts['id'];?>">
             <h1><?php echo $posts['headline']; ?></h1>
             </a>
             <p><?php echo $posts['date']; ?></p>
-            <p> <?php echo $posts['username']; ?></p>
+            <h3> <?php echo $posts['username']; ?></h3>
             <p><a href="<?php echo $posts['link']; ?>"><?php echo $posts['link']; ?></a></p>
             <p><?php echo $posts['content']; ?></p>
-            <a href="post.php?id=<?php echo $posts['id'];?>">
+            <a href="post.php">
             <p><?php echo numberOfComments($posts['id'], $pdo)['numberOfComments']; ?> Comment</p>
             </a>
             <form action="/app/upvotes.php" 

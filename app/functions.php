@@ -9,15 +9,13 @@ function redirect(string $path)
 }
 
 //Logic for extracting data from DB and storing in functions for later use.
-
 //Check session for a logged in user
 function loggedIn(): bool
 {
     return isset($_SESSION['user']);
 }
 
-
-//Checks if current user has upvoted post - upvotes if no
+//Checks if current user has upvoted post - upvotes if not
 function toggleUpvote(int $postID, object $pdo): bool
 {   $usr = $_SESSION['user']['id'];
     $stmnt = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
@@ -30,10 +28,6 @@ function toggleUpvote(int $postID, object $pdo): bool
     $upvoted = $stmnt->fetch(PDO::FETCH_ASSOC);
     return $upvoted ? true : false;
 }
-
-
-//Counts the number of comments a post has
-
 
 //Counts number of posts posted by current session-id
 function postsByCurrentUser (int $usrID, object $pdo): array
@@ -48,7 +42,7 @@ function postsByCurrentUser (int $usrID, object $pdo): array
         return $usr;
     }
 }
-//Counts number of upvotes on posts by current session-id
+//Counts number of upvotes on posts by current session user
 function currentUserUpvoted(int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(upvotes.user_id) AS totalUpvotes
@@ -90,8 +84,6 @@ function numberOfComments(int $postID, object $pdo): array
     }
 }
 
-
-
 //Checks database for a user connected to the current id on the session
 function userById(int $usrID, object $pdo): array
 {
@@ -124,25 +116,28 @@ function postsArrayByDate(PDO $pdo): array
 }
 
 
-/*
-//Getting all posts, and pairing with the usernames of posters, sorting by upvotes.
-function postsArrayByDate(PDO $pdo): array
+//Getting all posts, and pairing with the usernames of posters, sorting by upvote
+function postsArrayByUpvotes(PDO $pdo): array
 {
-    $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts 
-    INNER JOIN users 
-    ON posts.user_id = users.id 
-    ORDER BY posts.date DESC');
-    if (!$stmnt) {
-        die(var_dump($pdo->errorInfo()));
-    }
+    $stmnt = $pdo->query('SELECT
+    COUNT(upvotes.post_id) AS upvotes,
+    posts.*,
+    users.username
+FROM
+    upvotes
+    INNER JOIN posts ON posts.id = upvotes.post_id
+    INNER JOIN users ON posts.user_id = users.id
+GROUP BY
+    posts.id
+ORDER BY
+    COUNT(1) DESC
+LIMIT
+    15;');
     $stmnt->execute();
     $allPosts = $stmnt->fetchAll(PDO::FETCH_ASSOC);
 
     return $allPosts;
 }
-*/
-
-
 
 //Logic for the login-system
 //Searches database for desired email

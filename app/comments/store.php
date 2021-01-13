@@ -7,26 +7,27 @@ require __DIR__ . '/../autoload.php';
 // In this file we store/insert new posts in the database.
 
 if (!loggedIn()) {
-    redirect('/');
+    redirect('/../login.php');
 }
 
-
 if (isset($_POST['new-comment'])) {
+    $postID = $_GET['id'];
     $comment = trim(filter_var($_POST['new-comment'], FILTER_SANITIZE_SPECIAL_CHARS));
     $usr = $_SESSION['user']['id'];
     $date = date("Y-M-D H:i:s");
-    $stmnt = $pdo->prepare('INSERT INTO comments (user_id, post_id, comment, date) 
-    VALUES (:user_id, :post_id :comment, :date)');
+    $stmnt = $pdo->prepare('INSERT INTO comments (comment, date, post_id, user_id) 
+    VALUES (:comment, :date, :post_id, :user_id)');
 
     if (!$stmnt) {
         die(var_dump($pdo->errorInfo()));
     }
 
     $stmnt->execute([
-        ':user_id' => $usr,
         ':comment' => $comment,
-        ':date' => $date
+        ':date' => $date,
+        ':post_id' => $postID,
+        ':user_id' => $usr
     ]);
 }
 
-redirect('/post.php');
+redirect('/post.php?id=' . $postID);

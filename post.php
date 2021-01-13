@@ -7,11 +7,25 @@
 ACTUAL POSTS AND COMMENT SECTION HERE ((CONTENT))
 
 
+<h2>Comment on this post ffs</h2>
+<div class="commentForms">
+    <form action="/app/comments/store.php?id=<?php echo $_GET['id'];?>" 
+    method="post">
+        <label for="description">New comment</label>
+        <br>
+        <textarea id="description" 
+        name="new-comment" 
+        placeholder="description" 
+        cols="30"
+        rows="5"
+        required>
+        </textarea>
+        <br>
+        <br>
+        <button class="btn" type="submit">Create</button>
 
-
-
-
-<a href="newcomment.php"><h2>comment on this post</h2></a>
+    </form>
+</div>
 
 <?php require __DIR__ . '/views/footer.php'; ?>
 
