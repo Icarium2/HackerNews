@@ -23,10 +23,10 @@
             <p><?php echo $currentUser['bio'] ?></p>
         </div>
         <div class="postInfo">
-            <p>Posts: <?php echo $numberOfPosts['userPosts']; ?></p>
+            <p>Posts:<br><?php echo $numberOfPosts['userPosts']; ?></p>
             
             <br>
-            <p>Upvoted: <?php echo $totalUpvotes['totalUpvotes']; ?> times </p>  
+            <p>Upvoted:<br><?php echo $totalUpvotes['totalUpvotes']; ?> times </p>  
             <br>
             <br>    
         </div>
