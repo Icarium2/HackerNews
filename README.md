@@ -12,7 +12,7 @@ Required features:
 - As a user I should be able to edit my account email, password and biography. [X]
 - As a user I should be able to upload a profile avatar image. [X]
 - As a user I should be able to create new posts with title, link and description. [X]
-- As a user I should be able to edit my posts. [-]
+- As a user I should be able to edit my posts. [X]
 - As a user I should be able to delete my posts. [X]
 - As a user I'm able to view most upvoted posts. [X]
 - As a user I'm able to view new posts. [X]

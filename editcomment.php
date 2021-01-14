@@ -3,34 +3,24 @@
 
 <?php
 $postId = $_GET['id'];
+$post = postById($postId, $pdo);
 $comments = postComments($postId, $pdo);
 ?>
 
-<?php foreach ($comments as $comment) : ?>
 
-<h2>Edit comment</h2>
-<div class="createPostContainer">
-    <form action="/app/comments/update.php?id=<?php echo $_POST['id'];?>" 
-    method="post">
-        <label for="edit-comment">Edit comment</label>
-        <br>
-        <input type="text" 
-        name="edit-comment" 
-        id="edit-comment"/>
-        <br>
-    
-    </form>
-</div>
-
-
-<h2>delete comment</h2>
-<form action="/app/comments/delete.php?id=<?php echo $comment['id']; ?>" method="post">
-            <div class="form-group">
-                <button type="submit" class="btn">Delete Post</button>
+<article>
+    <h4>Edit your comment on <a href="/post.php?id=<?php echo $post['id']; ?>"><?php echo $post['title']; ?>.</a></h4>
+    <br>
+    <?php foreach ($comments as $comment) : ?>
+            <form action="/app/comments/update.php?id=<?php echo $comment['post_id']; ?>&comment-id=<?php echo $comment['id']; ?>" method="post">
+                <div class="form-group">
+                    <textarea class="form-control" type="text" name="new-comment" rows="5" cols="10" required><?php echo $comment['comment']; ?></textarea>
+                </div>
+                <button type="submit" class="btn">Edit Comment</button>
+            </form>
         </div>
+    <?php endforeach; ?>
+</article>
 
-</form>
-
-<?php endforeach; ?>
 
 <?php require __DIR__ . '/views/footer.php'; ?>
