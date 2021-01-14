@@ -1,12 +1,6 @@
 <?php require __DIR__ . '/app/autoload.php'; ?>
 <?php require __DIR__ . '/views/header.php'; ?>
 
-
-
-
-ACTUAL POSTS AND COMMENT SECTION HERE ((CONTENT))
-
-
 <h2>Comment on this post ffs</h2>
 <div class="commentForms">
     <form action="/app/comments/store.php?id=<?php echo $_GET['id'];?>" 

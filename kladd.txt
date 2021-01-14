@@ -1,3 +1,0 @@
-             <?php if ($currentUserId === $userPostId) : ?>
-                <a href="/updateuserpost.php?id=<?php echo $userPost['id']; ?>">Edit</a>
-             <?php endif; ?>

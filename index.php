@@ -3,6 +3,9 @@
 
 <a href="viewbyupvotes.php"><button>Sort by upvotes</button></a>
 
+<?php if (loggedIn()) : ?>
+<?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
+<?php endif; ?>
 <?php $postsArray = postsArrayByDate($pdo) ;?>    
 
 <h1><?php echo $config['title']; ?></h1>
@@ -14,7 +17,6 @@
 <div class="byDateWrapper">
     <section class="posts">   
         <?php foreach ($postsArray as $posts) : ?>
-            <?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
             <?php $userPost = $posts['user_id']; ?>
             <a href="post.php?id=<?php echo $posts['id'];?>">
                 <h1><?php echo $posts['headline']; ?></h1>
