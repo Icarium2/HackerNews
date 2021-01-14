@@ -29,22 +29,6 @@
     </div>
     <button type="submit" class="btn">Save</button>
 </form>
-
-<form action="app/users/editusername.php" 
-    method="post">
-    <div class="form-group">
-                <label for="username">new username</label><br><br>
-                <input class="form-control"
-                type="username"
-                name="username"
-                id="username"
-                placeholder="Username"
-                required>
-    </div><br>
-    <button type="submit" class="btn">Save</button>
-    <br>
-</form>
-
 <form action="app/users/editemail.php" 
     method="post">
     <label for="email">Change email</label>
@@ -53,12 +37,10 @@
             type="email" 
             name="edit-email"
             placeholder="new email"
-            required>
-            
+            required>          
         </div>
         <button type="submit" class="btn">Save</button>
 </form>
-
 <h3>Change password</h3>
 <form action="app/users/editpassword.php" 
     method="post">

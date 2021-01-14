@@ -29,6 +29,18 @@ function toggleUpvote(int $postID, object $pdo): bool
     return $upvoted ? true : false;
 }
 
+//Gets all posts by current user
+function userPosts (int $usrID, object $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT * FROM posts WHERE user_id = :id');
+    $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
+    $stmnt->execute();
+    $usr = $stmnt->fetch(PDO::FETCH_ASSOC);
+    if ($usr) {
+        return $usr;
+    }
+}
+
 //Counts number of posts posted by current session-id
 function postsByCurrentUser (int $usrID, object $pdo): array
 {
@@ -123,15 +135,17 @@ function postsArrayByUpvotes(PDO $pdo): array
     COUNT(upvotes.post_id) AS upvotes,
     posts.*,
     users.username
-FROM
+    FROM
     upvotes
-    INNER JOIN posts ON posts.id = upvotes.post_id
-    INNER JOIN users ON posts.user_id = users.id
-GROUP BY
+    INNER JOIN posts 
+    ON posts.id = upvotes.post_id
+    INNER JOIN users 
+    ON posts.user_id = users.id
+    GROUP BY
     posts.id
-ORDER BY
+    ORDER BY
     COUNT(1) DESC
-LIMIT
+    LIMIT
     15;');
     $stmnt->execute();
     $allPosts = $stmnt->fetchAll(PDO::FETCH_ASSOC);
@@ -169,4 +183,5 @@ function handleTaken(string $username, object $pdo): bool
     return false;
 }
 
+//Pairs comments with individual posts and user id's
 

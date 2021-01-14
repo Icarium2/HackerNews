@@ -3,7 +3,9 @@
 
 <a href="index.php"><button>Sort by date</button></a>
 
+<?php if (loggedIn()) : ?>
 <?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
+<?php endif; ?>
 <?php $postsArray = postsArrayByUpvotes($pdo) ;?>       
 
 

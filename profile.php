@@ -7,6 +7,7 @@
 <?php $currentUser = userByID($_SESSION['user']['id'], $pdo);?>
 <?php $numberOfPosts = postsByCurrentUser($_SESSION['user']['id'], $pdo); ?>
 <?php $totalUpvotes = currentUserUpvoted($_SESSION['user']['id'], $pdo); ?>
+<?php $myPosts = userPosts($_SESSION['user']['id'], $pdo); ?>
 
 <article class="profileWrapper">
     <div class="profile">
@@ -38,6 +39,7 @@
 </article>
 </div>
 
-
+<div class="myPosts">
+</div>
 
 <?php require __DIR__ . '/views/footer.php'; ?>
