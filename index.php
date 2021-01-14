@@ -3,9 +3,7 @@
 
 <a href="viewbyupvotes.php"><button>Sort by upvotes</button></a>
 
-<?php if (loggedIn()) : ?>
-<?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
-<?php endif; ?>
+
 <?php $postsArray = postsArrayByDate($pdo) ;?>    
 
 <h1><?php echo $config['title']; ?></h1>
