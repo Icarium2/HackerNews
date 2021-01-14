@@ -12,9 +12,11 @@
 </section>
 <br>
 <br>
-<div class="byDateWrapper">
+<div class="postsWrapper">
     <section class="posts">   
         <?php foreach ($postsArray as $posts) : ?>
+            <img src="<?php echo '/app/users/uploads/' . $posts['avatar'];?>" alt="avatar">
+            <?php $currentUser = $_SESSION['user']['id']; ?>
             <?php $userPost = $posts['user_id']; ?>
             <a href="post.php?id=<?php echo $posts['id'];?>">
                 <h1><?php echo $posts['headline']; ?></h1>
@@ -38,6 +40,11 @@
                 <img src="/assets/images/vote.png">
            </button>
            </form> <p><?php echo numberOfUpvotes($posts['id'], $pdo)['numberOfUpvotes']; ?></p>
+            <p>
+                <?php if ($currentUser === $userPost) : ?>
+                    <a href="/editpost.php?id=<?php echo $posts['id']; ?>">Edit Post</a>
+                <?php endif; ?>
+            </p>
         <?php endforeach;?>
     </section>
 </div>

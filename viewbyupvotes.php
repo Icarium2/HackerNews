@@ -4,8 +4,8 @@
 <a href="index.php"><button>Sort by date</button></a>
 
 <?php if (loggedIn()) : ?>
-<?php $currentUser = userByID($_SESSION['user']['id'], $pdo); ?>
 <?php endif; ?>
+
 <?php $postsArray = postsArrayByUpvotes($pdo) ;?>       
 
 
@@ -15,9 +15,11 @@
 </section>
 <br>
 <br>
-<div class="byUpvoteWrapper">
+<div class="postsWrapper">
     <section class="posts">   
         <?php foreach ($postsArray as $posts) : ?>
+            <?php $currentUser = $_SESSION['user']['id']; ?>
+            <?php $userPost = $posts['user_id']; ?>
             <a href="post.php?id=<?php echo $posts['id'];?>">
             <h1><?php echo $posts['headline']; ?></h1>
             </a>
@@ -36,7 +38,10 @@
            <button type="submit" class="upvoteBtn">
            <img src="/assets/images/vote.png">
            </button>
-        </form> <p><?php echo numberOfUpvotes($posts['id'], $pdo)['numberOfUpvotes']; ?></p>
+            </form> <p><?php echo numberOfUpvotes($posts['id'], $pdo)['numberOfUpvotes']; ?></p>
+            <?php if ($currentUser === $userPost) : ?>
+                    <a href="/editpost.php?id=<?php echo $posts['id']; ?>">Edit Post</a>
+            <?php endif; ?>
         <?php endforeach;?>
     </section>
 </div>

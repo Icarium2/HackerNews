@@ -16,8 +16,8 @@ if (!loggedIn()) {
         <textarea id="description" 
         name="new-comment" 
         placeholder="description" 
-        cols="30"
-        rows="5"
+        cols="20"
+        rows="4"
         required>
         </textarea>
         <br>

@@ -6,6 +6,11 @@
   flex-direction: column;
 }
 
+.postsWrapper img {
+  height: 40px;
+  width: 40px;
+}
+
 .postInformation {
   display: flex;
   flex-direction: row;
