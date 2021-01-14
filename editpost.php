@@ -35,7 +35,14 @@
 
     </form>
 </div>
+<br><br><br>
 
+<form action="app/posts/delete.php?id=<?php echo $post['id']; ?>" method="post">
+            <div class="form-group">
+                <button type="submit" class="btn">Delete Post</button>
+        </div>
+
+</form>
 
 
 
