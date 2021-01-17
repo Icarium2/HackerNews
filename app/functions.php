@@ -16,10 +16,10 @@ function loggedIn(): bool
 }
 
 //Checks if current user has upvoted post - upvotes if not
-function toggleUpvote(int $postID, object $pdo): bool
-{   $usr = $_SESSION['user']['id'];
+function toggleUpvote(int $postID, object $pdo): bool {   
+    $usr = $_SESSION['user']['id'];
     $stmnt = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
-    
+
     $stmnt->execute([
         ':user_id' => $usr,
         ':post_id' => $postID    

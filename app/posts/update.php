@@ -25,7 +25,7 @@ if (isset($_POST['headline'], $_POST['content'], $_POST['link'], $_POST['id'])) 
         ':link' => $url,
         ':date' => $date,
         ':user_id' => $usr
-    
+
     ]);
 }
 redirect('/');

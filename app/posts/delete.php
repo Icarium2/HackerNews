@@ -14,7 +14,5 @@ if (loggedIn()) {
     $stmnt->bindParam(':post_id', $postId, PDO::PARAM_INT);
     $stmnt->bindParam(':user_id', $id, PDO::PARAM_INT);
     $stmnt->execute();
-
-
 }
 redirect('/');

@@ -16,7 +16,7 @@ if (isset($_FILES['avatar'])) {
 
     $stmnt = $pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
 
-    
+
     $stmnt->bindParam('avatar', $updateAvatar, PDO::PARAM_STR);
     $stmnt->bindPAram(':id', $usrID, PDO::PARAM_INT);
     $stmnt->execute();
@@ -25,4 +25,3 @@ if (isset($_FILES['avatar'])) {
 }
 
 redirect('/profile.php');
-
