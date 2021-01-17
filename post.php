@@ -54,6 +54,7 @@ $comments = postComments($postId, $pdo);
         <br>
 
     </form>
+
 </div>
        <section class="commentSection">
         <?php foreach ($comments as $comment) : ?>
@@ -70,16 +71,11 @@ $comments = postComments($postId, $pdo);
             <br>
             <br>
            
-
-
-
-
         <?php endforeach; ?>
     </section>
     </section>
 
-
-
+    
 
 <?php endif; ?>
 <?php require __DIR__ . '/views/footer.php'; ?>

@@ -153,7 +153,7 @@ function postsArrayByUpvotes(PDO $pdo): array
 
 function postComments(int $id, PDO $pdo): array
 {
-    $statement = $pdo->prepare('SELECT comments.id, comments.post_id, 
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id, 
             comments.user_id, comments.comment, comments.date, 
             users.avatar, users.username
             FROM comments
@@ -162,24 +162,36 @@ function postComments(int $id, PDO $pdo): array
             WHERE comments.post_id = :post_id
             ORDER BY comments.id DESC');
 
-    $statement->bindParam(':post_id', $id, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $stmnt->bindParam(':post_id', $id, PDO::PARAM_INT);
+    $stmnt->execute();
+    return $stmnt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getComment(int $id, PDO $pdo): array
+{
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id, 
+            comments.user_id, comments.comment, comments.date
+            FROM comments
+            WHERE comments.id = :post_id
+            ORDER BY comments.id DESC');
+
+    $stmnt->bindParam(':post_id', $id, PDO::PARAM_INT);
+    $stmnt->execute();
+    return $stmnt->fetchAll(PDO::FETCH_ASSOC)[0];
+}
 
 function postById(int $id, object $pdo): array
 {
-    $statement = $pdo->prepare('SELECT posts.id, posts.headline, posts.link, posts.content, posts.user_id, posts.date, users.avatar, users.username
+    $stmnt = $pdo->prepare('SELECT posts.id, posts.headline, posts.link, posts.content, posts.user_id, posts.date, users.avatar, users.username
         FROM posts
         INNER JOIN users
         ON posts.user_id = users.id
         WHERE posts.id = :post_id LIMIT 1');
 
-    $statement->bindParam(':post_id', $id, PDO::PARAM_INT);
-    $statement->execute();
+    $stmnt->bindParam(':post_id', $id, PDO::PARAM_INT);
+    $stmnt->execute();
 
-    $post = $statement->fetch(PDO::FETCH_ASSOC);
+    $post = $stmnt->fetch(PDO::FETCH_ASSOC);
 
     if ($post) {
         return $post;
