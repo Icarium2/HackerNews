@@ -13,17 +13,11 @@ if (loggedIn() && isset($_POST['post_id'])) {
     if ($upvoted) {
         $stmnt = $pdo->prepare('DELETE FROM upvotes WHERE user_id = :user_id AND post_id = :post_id');
     } else {
-        $stmnt = $pdo->prepare('INSERT INTO upvotes (user_id, post_id) VALUES (:user_id, :post_id)');    
+        $stmnt = $pdo->prepare('INSERT INTO upvotes (user_id, post_id) VALUES (:user_id, :post_id)');
     }
     $stmnt->execute([
         ':user_id' => $usrID,
         ':post_id' => $postID
     ]);
-
 }
 redirect('/');
-
-
-
-
-
