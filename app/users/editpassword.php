@@ -21,7 +21,7 @@ if (isset($_POST['pwd'], $_POST['edit-password'], $_POST['confirm-password'])) {
             $stmnt->bindParam(':password', password_hash($editPWD, PASSWORD_BCRYPT), pdo::PARAM_STR);
             $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
             $stmnt->execute();
-            $_SESSION['user']['password'] = $editPWD;          
+            $_SESSION['user']['password'] = $editPWD;
         }
     }
 }

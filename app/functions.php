@@ -16,13 +16,14 @@ function loggedIn(): bool
 }
 
 //Checks if current user has upvoted post - upvotes if not
-function toggleUpvote(int $postID, object $pdo): bool {   
+function toggleUpvote(int $postID, object $pdo): bool
+{   
     $usr = $_SESSION['user']['id'];
     $stmnt = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
 
     $stmnt->execute([
         ':user_id' => $usr,
-        ':post_id' => $postID    
+        ':post_id' => $postID
     ]);
 
     $upvoted = $stmnt->fetch(PDO::FETCH_ASSOC);
@@ -30,7 +31,7 @@ function toggleUpvote(int $postID, object $pdo): bool {
 }
 
 //Gets all posts by current user
-function userPosts (int $usrID, PDO $pdo): array
+function userPosts(int $usrID, PDO $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT * FROM posts WHERE user_id = :id');
     $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
@@ -42,7 +43,7 @@ function userPosts (int $usrID, PDO $pdo): array
 }
 
 //Counts number of posts posted by current session-id
-function postsByCurrentUser (int $usrID, object $pdo): array
+function postsByCurrentUser(int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(posts.user_id) AS userPosts
     FROM posts INNER JOIN users ON users.id=posts.user_id 
@@ -82,7 +83,7 @@ function numberOfUpvotes(int $postID, object $pdo): array
     }
 }
 
-//counts the number of comments a post has 
+//counts the number of comments a post has
 function numberOfComments(int $postID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(comments.post_id) AS numberOfComments
@@ -230,4 +231,3 @@ function handleTaken(string $username, object $pdo): bool
     }
     return false;
 }
-
