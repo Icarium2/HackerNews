@@ -45,3 +45,14 @@ or through Github Desktop.
 Use the command-line to navigate to the repository, fire up your local server with
 `$ php -S localhost:8000` (or whatever you like to use)
 and get to using the project by navigating to localhost:8000/index.php.
+
+# Review
+
+:sparkles: When not logged in on the home page two warnings appear - "Warning: Undefined array key "user" & "Warning: Trying to access array offset on value of type null".
+:sparkles: Pressing Upvote brings up an error - "Fatal error: Uncaught PDOException: SQLSTATE[HY000]: General error: 1 no such column: upvote".
+:sparkles: There is a var_dump on line 8 in the posts/update.php file that is active.
+:sparkles: The title Hacker News is clickable but does not perform a function.
+:sparkles: The code is written clean and readable.
+:sparkles: The folder "scripts" in assests containes a .js file which is not included in the project.
+:sparkles: All features work as they should!
+:sparkles: The about page including the about.php is indeed amazing!
