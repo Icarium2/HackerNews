@@ -6,6 +6,8 @@
 if (isset($_GET['id'])) {
     $postId = trim(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT));
     $post = postById($postId, $pdo);
+    $comments = postComments($postId, $pdo);
+    $replies = postCommentsReplies($postId, $pdo);
 
     if (isset($_GET['order_by'])) {
         $orderBy = trim(filter_var($_GET['order_by'], FILTER_SANITIZE_STRING));
@@ -14,8 +16,6 @@ if (isset($_GET['id'])) {
             $replies = postRepliesByUpvotes($postId, $pdo);
         } else {
             $orderBy = "new";
-            $comments = postComments($postId, $pdo);
-            $replies = postCommentsReplies($postId, $pdo);
         }
     } else {
         $orderBy = "new";
