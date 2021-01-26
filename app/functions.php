@@ -17,7 +17,7 @@ function loggedIn(): bool
 
 //Checks if current user has upvoted post - upvotes if not
 function toggleUpvote(int $postID, object $pdo): bool
-{   
+{
     $usr = $_SESSION['user']['id'];
     $stmnt = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
 
@@ -46,7 +46,7 @@ function userPosts(int $usrID, PDO $pdo): array
 function postsByCurrentUser(int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(posts.user_id) AS userPosts
-    FROM posts INNER JOIN users ON users.id=posts.user_id 
+    FROM posts INNER JOIN users ON users.id=posts.user_id
     where user_id = :id');
     $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
     $stmnt->execute();
@@ -59,7 +59,7 @@ function postsByCurrentUser(int $usrID, object $pdo): array
 function currentUserUpvoted(int $usrID, object $pdo): array
 {
     $stmnt = $pdo->prepare('SELECT count(upvotes.user_id) AS totalUpvotes
-    FROM upvotes INNER JOIN users ON users.id=upvotes.user_id 
+    FROM upvotes INNER JOIN users ON users.id=upvotes.user_id
     where user_id = :id');
     $stmnt->bindParam(':id', $usrID, PDO::PARAM_INT);
     $stmnt->execute();
@@ -112,9 +112,9 @@ function userById(int $usrID, object $pdo): array
 //Getting all posts, and pairing with the usernames of posters, sorting by date.
 function postsArrayByDate(PDO $pdo): array
 {
-    $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts 
-    INNER JOIN users 
-    ON posts.user_id = users.id 
+    $stmnt = $pdo->query('SELECT posts.*, users.username, users.avatar FROM posts
+    INNER JOIN users
+    ON posts.user_id = users.id
     ORDER BY posts.date DESC');
     if (!$stmnt) {
         die(var_dump($pdo->errorInfo()));
@@ -135,9 +135,9 @@ function postsArrayByUpvotes(PDO $pdo): array
     users.username
     FROM
     upvotes
-    INNER JOIN posts 
+    INNER JOIN posts
     ON posts.id = upvotes.post_id
-    INNER JOIN users 
+    INNER JOIN users
     ON posts.user_id = users.id
     GROUP BY
     posts.id
@@ -154,8 +154,8 @@ function postsArrayByUpvotes(PDO $pdo): array
 
 function postComments(int $id, PDO $pdo): array
 {
-    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id, 
-            comments.user_id, comments.comment, comments.date, 
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id,
+            comments.user_id, comments.comment, comments.date,
             users.avatar, users.username
             FROM comments
             INNER JOIN users
@@ -170,7 +170,7 @@ function postComments(int $id, PDO $pdo): array
 
 function getComment(int $id, PDO $pdo): array
 {
-    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id, 
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id,
             comments.user_id, comments.comment, comments.date
             FROM comments
             WHERE comments.id = :post_id
@@ -200,8 +200,6 @@ function postById(int $id, object $pdo): array
 }
 
 
-
-
 //Logic for the login-system
 //Searches database for desired email
 function emailTaken(string $email, object $pdo): bool
@@ -214,7 +212,7 @@ function emailTaken(string $email, object $pdo): bool
     if ($email) {
         return true;
     }
-        return false;
+    return false;
 }
 
 //Searches database for desired username
