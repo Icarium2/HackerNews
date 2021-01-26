@@ -86,13 +86,14 @@ if (isset($_GET['id'])) {
                         <?php foreach ($replies as $reply) : ?>
                             <?php if ($reply['reply'] === $comment['id']) : ?>
                                 <div class="reply" style="margin-left: 16px; margin-bottom: 8px; background-color: grey;">
+                                    <img src="<?php echo '/app/users/uploads/' . $comment['avatar'] ?>" alt="avatar">
+                                    <p><?= $reply['username'] ?></p>
                                     <div class="upvote comment">
                                         <button class="upvoteBtn <?= hasUserUpvotedComment($_SESSION['user']['id'], $reply['id'], $pdo) ? "active" : "" ?>" data-id="<?= $reply['id'] ?>">
                                             <img src="/assets/images/vote.png">
                                         </button>
                                         <p class="upvotes"><?= fetchNumberOfCommentUpvotes($reply['id'], $pdo) ?></p>
                                     </div>
-                                    <p><?= $reply['username'] ?></p>
                                     <p><?= $reply['comment'] ?></p>
                                     <p><?= $reply['date'] ?></p>
                                     <?php if (loggedIn() && $_SESSION['user']['id'] === $reply['user_id']) : ?>
