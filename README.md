@@ -48,14 +48,19 @@ and get to using the project by navigating to localhost:8000/index.php.
 
 Additional features by Simon Lindstedt:
 
-- [General fixes]('https://github.com/Icarium2/HackerNews/pull/2')
-  - Voting without reloading the page.
-  - Small additions to the database.
-  - Error validation on the delete buttons.
-  - General bugfixes.
-  - Some additions to functions.php
-- [Account deletion]('https://github.com/Icarium2/HackerNews/pull/3')
-  - Total deletion of a users account.
-- [Comment upvote and replies]('https://github.com/Icarium2/HackerNews/pull/4')
-  - Upvote comments and replies.
-  - Reply to comments.
+[General fixes]('https://github.com/Icarium2/HackerNews/pull/2')
+
+- Voting without reloading the page.
+- Small additions to the database.
+- Error validation on the delete buttons.
+- General bugfixes.
+- Some additions to functions.php
+
+[Account deletion]('https://github.com/Icarium2/HackerNews/pull/3')
+
+- Total deletion of a users account.
+
+[Comment upvote and replies]('https://github.com/Icarium2/HackerNews/pull/4')
+
+- Upvote comments and replies.
+- Reply to comments.
