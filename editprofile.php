@@ -49,4 +49,15 @@ if (!loggedIn()) {
     </div>
 </form>
 
+<h3>Delete account</h3>
+<form action="/app/users/deleteUser.php" method="post">
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <label for="password_repeat">Repeat Password</label>
+        <input type="password" id="password_repeat" name="password_repeat" required>
+        <button type="submit" class="delete">Delete account</button>
+    </div>
+</form>
+
 <?php require __DIR__ . '/views/footer.php'; ?>
