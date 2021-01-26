@@ -6,8 +6,22 @@
 if (isset($_GET['id'])) {
     $postId = trim(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT));
     $post = postById($postId, $pdo);
-    $comments = postComments($postId, $pdo);
+
+    if (isset($_GET['order_by'])) {
+        $orderBy = trim(filter_var($_GET['order_by'], FILTER_SANITIZE_STRING));
+        if ($orderBy === 'top') {
+            $comments = postCommentsByUpvotes($postId, $pdo);
+            $replies = postRepliesByUpvotes($postId, $pdo);
+        } else {
+            $orderBy = "new";
+            $comments = postComments($postId, $pdo);
+            $replies = postCommentsReplies($postId, $pdo);
+        }
+    } else {
+        $orderBy = "new";
+    }
 }
+
 ?>
 
 <?php if (loggedIn()) : ?>
@@ -43,17 +57,51 @@ if (isset($_GET['id'])) {
             </form>
         </div>
         <?php if (isset($comments)) : ?>
+            <?php if ($orderBy === "new") : ?>
+                <a href="/post.php?id=<?= $postId ?>&order_by=top"><button>order by upvotes</button></a>
+            <?php else : ?>
+                <a href="/post.php?id=<?= $postId ?>&order_by=new"><button>order by date</button></a>
+            <?php endif; ?>
             <section class="commentSection">
                 <?php foreach ($comments as $comment) : ?>
                     <img src="<?php echo '/app/users/uploads/' . $comment['avatar'] ?>" alt="avatar">
                     <p><?php echo $comment['username']; ?></p>
+                    <div class="upvote comment">
+                        <button class="upvoteBtn <?= hasUserUpvotedComment($_SESSION['user']['id'], $comment['id'], $pdo) ? "active" : "" ?>" data-id="<?= $comment['id'] ?>">
+                            <img src="/assets/images/vote.png">
+                        </button>
+                        <p class="upvotes"><?= fetchNumberOfCommentUpvotes($comment['id'], $pdo) ?></p>
+                    </div>
                     <h3><?php echo $comment['comment']; ?></h3>
                     <h4><?php echo $comment['date']; ?></h4>
+                    <?php if (loggedIn()) : ?>
+                        <a href="/replyToComment.php?id=<?php echo $comment['id']; ?>">reply</a>
+                    <?php endif; ?>
                     <?php if (loggedIn() && $_SESSION['user']['id'] === $comment['user_id']) : ?>
                         <a href="/editcomment.php?id=<?php echo $comment['id']; ?>">Edit comment</a>
                     <?php endif; ?>
                     <br>
                     <br>
+                    <?php if (isset($replies)) : ?>
+                        <?php foreach ($replies as $reply) : ?>
+                            <?php if ($reply['reply'] === $comment['id']) : ?>
+                                <div class="reply" style="margin-left: 16px; margin-bottom: 8px; background-color: grey;">
+                                    <div class="upvote comment">
+                                        <button class="upvoteBtn <?= hasUserUpvotedComment($_SESSION['user']['id'], $reply['id'], $pdo) ? "active" : "" ?>" data-id="<?= $reply['id'] ?>">
+                                            <img src="/assets/images/vote.png">
+                                        </button>
+                                        <p class="upvotes"><?= fetchNumberOfCommentUpvotes($reply['id'], $pdo) ?></p>
+                                    </div>
+                                    <p><?= $reply['username'] ?></p>
+                                    <p><?= $reply['comment'] ?></p>
+                                    <p><?= $reply['date'] ?></p>
+                                    <?php if (loggedIn() && $_SESSION['user']['id'] === $reply['user_id']) : ?>
+                                        <a href="/editcomment.php?id=<?php echo $reply['id']; ?>">Edit reply</a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </section>
         <?php endif; ?>

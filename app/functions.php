@@ -344,3 +344,153 @@ function fetchNumberOfPostUpvotes(int $postId, PDO $pdo): int
 
     return (int)$result['upvotes'];
 }
+
+function fetchNumberOfCommentUpvotes(int $commentId, PDO $pdo): int
+{
+    $stmnt = $pdo->prepare("SELECT COUNT(comment_id) as 'upvotes' FROM upvotes WHERE comment_id = :comment_id;");
+    $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+
+    return (int)$result['upvotes'];
+}
+
+function hasUserUpvotedComment(int $userId, int $commentId, PDO $pdo): bool
+{
+    $stmnt = $pdo->prepare("SELECT * FROM upvotes WHERE comment_id = :comment_id AND user_id = :user_id");
+    $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+    $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return true;
+    }
+
+    return false;
+}
+
+function toggleCommentUpvote(int $userId, int $commentId, PDO $pdo): void
+{
+    if (hasUserUpvotedComment($userId, $commentId, $pdo)) {
+        $stmnt = $pdo->prepare("DELETE FROM upvotes WHERE user_id = :user_id AND comment_id = :comment_id");
+        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+        $stmnt->execute();
+
+        if (!$stmnt) {
+            die(var_dump($pdo->errorInfo()));
+        }
+    } else {
+        $stmnt = $pdo->prepare("INSERT INTO upvotes (user_id, comment_id) VALUES(:user_id, :comment_id)");
+        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+        $stmnt->execute();
+
+        if (!$stmnt) {
+            die(var_dump($pdo->errorInfo()));
+        }
+    }
+}
+
+function postCommentsReplies(int $postId, PDO $pdo): ?array
+{
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id,
+            comments.user_id, comments.comment, comments.date, comments.reply,
+            users.avatar, users.username
+            FROM comments
+            INNER JOIN users
+            ON comments.user_id = users.id
+            WHERE comments.post_id = :post_id
+            AND reply IS NOT NULL;
+            ORDER BY comments.id DESC');
+
+    $stmnt->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    return $stmnt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function postCommentsByUpvotes(int $postId, PDO $pdo): ?array
+{
+    $stmnt = $pdo->prepare(
+        "SELECT c.*,
+        COALESCE(v.upvote_count, 0) AS upvotes,
+        users.username,
+        users.avatar
+        FROM comments c
+        LEFT OUTER JOIN (
+            SELECT comment_id, COUNT(comment_id) AS upvote_count
+            FROM upvotes
+            GROUP BY comment_id
+        ) v
+        ON c.id = v.comment_id
+        INNER JOIN users
+        ON users.id = c.user_id
+        WHERE c.post_id = :post_id AND c.reply IS NULL
+        ORDER BY upvotes DESC, c.date DESC;"
+    );
+    $stmnt->bindParam(":post_id", $postId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $results = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$results) {
+        return null;
+    }
+
+    return $results;
+}
+
+function postRepliesByUpvotes(int $postId, PDO $pdo): ?array
+{
+    $stmnt = $pdo->prepare(
+        "SELECT c.*,
+        COALESCE(v.upvote_count, 0) AS upvotes,
+        users.username,
+        users.avatar
+        FROM comments c
+        LEFT OUTER JOIN (
+            SELECT comment_id, COUNT(comment_id) AS upvote_count
+            FROM upvotes
+            GROUP BY comment_id
+        ) v
+        ON c.id = v.comment_id
+        INNER JOIN users
+        ON users.id = c.user_id
+        WHERE c.post_id = :post_id AND c.reply IS NOT NULL
+        ORDER BY upvotes DESC, c.date DESC;"
+    );
+    $stmnt->bindParam(":post_id", $postId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $results = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$results) {
+        return null;
+    }
+
+    return $results;
+}

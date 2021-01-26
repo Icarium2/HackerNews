@@ -28,7 +28,7 @@ $postsArray = postsArrayByUpvotes($pdo);
             <h3> <?php echo $posts['username']; ?></h3>
             <p><a href="<?php echo $posts['link']; ?>"><?php echo $posts['link']; ?></a></p>
             <p><?php echo $posts['content']; ?></p>
-            <a href="post.php?id=<?php echo $posts['id'] ?>">
+            <a href="post.php?id=<?php echo $posts['id'] ?>&order_by=new">
                 <p><?php echo numberOfComments($posts['id'], $pdo)['numberOfComments']; ?> Comment</p>
             </a>
             <div class="upvote post">
