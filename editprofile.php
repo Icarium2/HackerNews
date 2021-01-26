@@ -1,6 +1,12 @@
-<?php require __DIR__ . '/app/autoload.php'; ?>
-<?php require __DIR__ . '/views/header.php'; ?>
+<?php
+require __DIR__ . '/app/autoload.php';
+require __DIR__ . '/views/header.php';
 
+if (!loggedIn()) {
+    redirect("/login.php");
+}
+
+?>
 
 <form action="/app/users/editavatar.php" method="post" enctype="multipart/form-data">
     <label for="file">Upload profile image(jpg, jpeg, png)</label>
@@ -40,9 +46,7 @@
             <small class="form-text text-muted">Confirm New Password</small>
         </div>
         <button type="submit" class="btn">Save changes</button>
+    </div>
 </form>
-
-
-
 
 <?php require __DIR__ . '/views/footer.php'; ?>

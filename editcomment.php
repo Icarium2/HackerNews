@@ -17,7 +17,7 @@
 
 <form action="app/comments/delete.php?id=<?php echo getComment($postID, $pdo)['id']; ?>" method="post">
     <div class="form-group">
-        <button type="submit" class="btn">Delete Comment</button>
+        <button type="submit" class="btn delete">Delete Comment</button>
     </div>
 </form>
 

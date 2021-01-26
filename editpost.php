@@ -32,7 +32,7 @@
 
 <form action="app/posts/delete.php?id=<?php echo $post['id']; ?>" method="post">
     <div class="form-group">
-        <button type="submit" class="btn">Delete Post</button>
+        <button type="submit" class="btn delete">Delete Post</button>
     </div>
 
 </form>

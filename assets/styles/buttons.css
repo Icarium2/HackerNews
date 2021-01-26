@@ -23,8 +23,13 @@
   box-shadow: none;
   width: 30px;
   height: 60px;
+  opacity: 0.5;
 }
 
-.upvoteBtn img:hover {
-  opacity: 0.7;
+.upvoteBtn.active img {
+  opacity: 1;
+}
+
+.upvoteBtn:hover {
+  transform: scale(1.1);
 }
