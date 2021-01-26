@@ -23,7 +23,7 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     $bio = '';
 
 
-    $stmnt = $pdo->prepare('INSERT INTO users (email, username, password, avatar, bio) 
+    $stmnt = $pdo->prepare('INSERT INTO users (email, username, password, avatar, bio)
     VALUES (:email, :username, :password, :avatar, :bio)');
 
     $stmnt->bindParam(':email', $email, PDO::PARAM_STR);

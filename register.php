@@ -9,35 +9,20 @@
 
         <div class="form-group">
             <label for="email">E-mail</label><br><br>
-            <input class="form-control" 
-            type="email" 
-            name="email" 
-            id="email" 
-            placeholder="E-mail"
-            required>
+            <input class="form-control" type="email" name="email" id="email" placeholder="E-mail" required>
         </div><br>
-        
+
         <div class="form-group">
             <label for="username">Username</label><br><br>
-            <input class="form-control"
-            type="username"
-            name="username"
-            id="username"
-            placeholder="Username"
-            required>
+            <input class="form-control" type="username" name="username" id="username" placeholder="Username" required>
         </div><br>
 
         <div class="form-group">
             <label for="password">Password</label><br><br>
-            <input class="form-control"
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            required>
+            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
         </div><br>
         <button type="submit">Register</button>
     </form>
 </article>
-    
+
 <?php require __DIR__ . '/views/footer.php'; ?>
