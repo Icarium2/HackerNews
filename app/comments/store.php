@@ -30,4 +30,4 @@ if (isset($_POST['new-comment'])) {
     ]);
 }
 
-redirect('/post.php?id=' . $postID);
+redirect('/post.php?id=' . $postID . '&order_by=new');
