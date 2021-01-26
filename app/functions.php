@@ -264,7 +264,29 @@ function handleTaken(string $username, object $pdo): bool
     return false;
 }
 
-// Added/modified by Simon
+// Added/modified by Simon for enabling new features. If feature is not desired, just discard/remove the corresponding function.
+
+function postCommentsReplies(int $postId, PDO $pdo): ?array
+{
+    $stmnt = $pdo->prepare('SELECT comments.id, comments.post_id,
+            comments.user_id, comments.comment, comments.date, comments.reply,
+            users.avatar, users.username
+            FROM comments
+            INNER JOIN users
+            ON comments.user_id = users.id
+            WHERE comments.post_id = :post_id
+            AND reply IS NOT NULL;
+            ORDER BY comments.id DESC');
+
+    $stmnt->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    return $stmnt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 function vertifyPassword(int $userId, string $password, PDO $pdo): bool
 {
@@ -285,6 +307,121 @@ function vertifyPassword(int $userId, string $password, PDO $pdo): bool
     }
 
     return password_verify($password, $passwordHash);
+}
+
+function deleteUser(int $userId, PDO $pdo): void
+{
+
+    $stmnt = $pdo->prepare("SELECT avatar FROM users WHERE id = :user_id");
+    $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result && $result['avatar'] !== 'placeholder.png') {
+        $path = __DIR__ . '/users/uploads/' . $result['avatar'];
+        if (realpath($path)) {
+            unlink($path);
+        }
+    }
+
+    $sqlQueries = [
+        "DELETE FROM users WHERE id = :user_id;",
+        "DELETE FROM posts WHERE user_id = :user_id;",
+        "SELECT * FROM comments WHERE user_id = :user_id",
+        "DELETE FROM comments WHERE user_id = :user_id;",
+        "DELETE FROM upvotes WHERE user_id = :user_id;",
+    ];
+
+    foreach ($sqlQueries as $query) {
+        $stmnt = $pdo->prepare($query);
+        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmnt->execute();
+
+        if (!$stmnt) {
+            die(var_dump($pdo->errorInfo()));
+        }
+
+        if ($query === $sqlQueries[2]) {
+            $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+            $commentId = $result['id'];
+            $queries = [
+                "DELETE FROM comments WHERE reply = :comment_id",
+                "DELETE FROM upvotes WHERE comment_id = :comment_id",
+            ];
+
+            foreach ($queries as $query) {
+                $stmnt = $pdo->prepare("$query");
+                $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+
+                if (!$stmnt) {
+                    die(var_dump($pdo->errorInfo()));
+                }
+            }
+        }
+    }
+}
+
+function fetchNumberOfCommentUpvotes(int $commentId, PDO $pdo): int
+{
+    $stmnt = $pdo->prepare("SELECT COUNT(comment_id) as 'upvotes' FROM upvotes WHERE comment_id = :comment_id;");
+    $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+
+    return (int)$result['upvotes'];
+}
+
+function hasUserUpvotedComment(int $userId, int $commentId, PDO $pdo): bool
+{
+    $stmnt = $pdo->prepare("SELECT * FROM upvotes WHERE comment_id = :comment_id AND user_id = :user_id");
+    $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+    $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $stmnt->execute();
+
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return true;
+    }
+
+    return false;
+}
+
+function toggleCommentUpvote(int $userId, int $commentId, PDO $pdo): void
+{
+    if (hasUserUpvotedComment($userId, $commentId, $pdo)) {
+        $stmnt = $pdo->prepare("DELETE FROM upvotes WHERE user_id = :user_id AND comment_id = :comment_id");
+        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+        $stmnt->execute();
+
+        if (!$stmnt) {
+            die(var_dump($pdo->errorInfo()));
+        }
+    } else {
+        $stmnt = $pdo->prepare("INSERT INTO upvotes (user_id, comment_id) VALUES(:user_id, :comment_id)");
+        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
+        $stmnt->execute();
+
+        if (!$stmnt) {
+            die(var_dump($pdo->errorInfo()));
+        }
+    }
 }
 
 function hasUserUpvotedPost(int $userId, int $postId, PDO $pdo): bool
@@ -345,59 +482,72 @@ function fetchNumberOfPostUpvotes(int $postId, PDO $pdo): int
     return (int)$result['upvotes'];
 }
 
-function deleteUser(int $userId, PDO $pdo): void
+function postCommentsByUpvotes(int $postId, PDO $pdo): ?array
 {
-
-    $stmnt = $pdo->prepare("SELECT avatar FROM users WHERE id = :user_id");
-    $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $stmnt = $pdo->prepare(
+        "SELECT c.*,
+        COALESCE(v.upvote_count, 0) AS upvotes,
+        users.username,
+        users.avatar
+        FROM comments c
+        LEFT OUTER JOIN (
+            SELECT comment_id, COUNT(comment_id) AS upvote_count
+            FROM upvotes
+            GROUP BY comment_id
+        ) v
+        ON c.id = v.comment_id
+        INNER JOIN users
+        ON users.id = c.user_id
+        WHERE c.post_id = :post_id AND c.reply IS NULL
+        ORDER BY upvotes DESC, c.date DESC;"
+    );
+    $stmnt->bindParam(":post_id", $postId, PDO::PARAM_INT);
     $stmnt->execute();
 
     if (!$stmnt) {
         die(var_dump($pdo->errorInfo()));
     }
 
-    $result = $stmnt->fetch(PDO::FETCH_ASSOC);
+    $results = $stmnt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result && $result['avatar'] !== 'placeholder.png') {
-        $path = __DIR__ . '/users/uploads/' . $result['avatar'];
-        if (realpath($path)) {
-            unlink($path);
-        }
+    if (!$results) {
+        return null;
     }
 
-    $sqlQueries = [
-        "DELETE FROM users WHERE id = :user_id;",
-        "DELETE FROM posts WHERE user_id = :user_id;",
-        "SELECT * FROM comments WHERE user_id = :user_id",
-        "DELETE FROM comments WHERE user_id = :user_id;",
-        "DELETE FROM upvotes WHERE user_id = :user_id;",
-    ];
+    return $results;
+}
 
-    foreach ($sqlQueries as $query) {
-        $stmnt = $pdo->prepare($query);
-        $stmnt->bindParam(":user_id", $userId, PDO::PARAM_INT);
-        $stmnt->execute();
+function postRepliesByUpvotes(int $postId, PDO $pdo): ?array
+{
+    $stmnt = $pdo->prepare(
+        "SELECT c.*,
+        COALESCE(v.upvote_count, 0) AS upvotes,
+        users.username,
+        users.avatar
+        FROM comments c
+        LEFT OUTER JOIN (
+            SELECT comment_id, COUNT(comment_id) AS upvote_count
+            FROM upvotes
+            GROUP BY comment_id
+        ) v
+        ON c.id = v.comment_id
+        INNER JOIN users
+        ON users.id = c.user_id
+        WHERE c.post_id = :post_id AND c.reply IS NOT NULL
+        ORDER BY upvotes DESC, c.date DESC;"
+    );
+    $stmnt->bindParam(":post_id", $postId, PDO::PARAM_INT);
+    $stmnt->execute();
 
-        if (!$stmnt) {
-            die(var_dump($pdo->errorInfo()));
-        }
-
-        if ($query === $sqlQueries[2]) {
-            $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
-            $commentId = $result['id'];
-            $queries = [
-                "DELETE FROM comments WHERE reply = :comment_id",
-                "DELETE FROM upvotes WHERE comment_id = :comment_id",
-            ];
-
-            foreach ($queries as $query) {
-                $stmnt = $pdo->prepare("$query");
-                $stmnt->bindParam(":comment_id", $commentId, PDO::PARAM_INT);
-
-                if (!$stmnt) {
-                    die(var_dump($pdo->errorInfo()));
-                }
-            }
-        }
+    if (!$stmnt) {
+        die(var_dump($pdo->errorInfo()));
     }
+
+    $results = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$results) {
+        return null;
+    }
+
+    return $results;
 }
