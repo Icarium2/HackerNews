@@ -2,12 +2,13 @@
 require __DIR__ . '/app/autoload.php';
 require __DIR__ . '/views/header.php';
 
-$postsArray = postsArrayByDate($pdo);
-
 if (loggedIn()) {
     $currentUser = $_SESSION['user']['id'];
+} else {
+    $currentUser;
 }
 
+$postsArray = postsArrayByDate($pdo);
 ?>
 <a href="viewbyupvotes.php"><button>Sort by upvotes</button></a>
 <h1><?php echo $config['title']; ?></h1>
@@ -28,7 +29,7 @@ if (loggedIn()) {
             <h3> <?php echo $posts['username']; ?></h3>
             <p><a href="<?php echo $posts['link']; ?>"><?php echo $posts['link']; ?></a></p>
             <p><?php echo $posts['content']; ?></p>
-            <a href="post.php?id=<?php echo $posts['id'] ?>">
+            <a href="post.php?id=<?php echo $posts['id'] ?>&order_by=new">
                 <p><?php echo numberOfComments($posts['id'], $pdo)['numberOfComments']; ?> comments</p>
             </a>
             <div class="upvote post">
