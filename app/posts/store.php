@@ -17,7 +17,7 @@ if (isset($_POST['title'], $_POST['description'], $_POST['link'])) {
     $url = trim(filter_var($_POST['link'], FILTER_SANITIZE_URL));
     $usr = $_SESSION['user']['id'];
     $date = date("Y-M-D H:i:s");
-    $stmnt = $pdo->prepare('INSERT INTO posts (user_id, content, headline, link, date) 
+    $stmnt = $pdo->prepare('INSERT INTO posts (user_id, content, headline, link, date)
     VALUES (:user_id, :content, :headline, :link, :date)');
 
     if (!$stmnt) {

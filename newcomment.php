@@ -9,16 +9,10 @@ if (!loggedIn()) {
 <h2>New Post</h2>
 
 <div class="commentForms">
-    <form action="/app/comments/store.php" 
-    method="post">
+    <form action="/app/comments/store.php" method="post">
         <label for="description">New comment</label>
         <br>
-        <textarea id="description" 
-        name="new-comment" 
-        placeholder="description" 
-        cols="20"
-        rows="4"
-        required>
+        <textarea id="description" name="new-comment" placeholder="description" cols="20" rows="4" required>
         </textarea>
         <br>
         <br>

@@ -56,3 +56,22 @@ and get to using the project by navigating to localhost:8000/index.php.
 :star: The folder "scripts" in assests containes a .js file which is not included in the project. <br>
 :star: All features work as they should! <br>
 :star: The about page including the about.php is indeed amazing!
+
+Additional features by Simon Lindstedt:
+
+[General fixes]('https://github.com/Icarium2/HackerNews/pull/2')
+
+- Voting without reloading the page.
+- Small additions to the database.
+- Error validation on the delete buttons.
+- General bugfixes.
+- Some additions to functions.php
+
+[Account deletion]('https://github.com/Icarium2/HackerNews/pull/3')
+
+- Total deletion of a users account.
+
+[Comment upvote and replies]('https://github.com/Icarium2/HackerNews/pull/4')
+
+- Upvote comments and replies.
+- Reply to comments.

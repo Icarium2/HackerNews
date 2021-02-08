@@ -15,7 +15,7 @@ if (isset($_POST['new-comment'])) {
     $comment = trim(filter_var($_POST['new-comment'], FILTER_SANITIZE_SPECIAL_CHARS));
     $usr = $_SESSION['user']['id'];
     $date = date("Y-M-D H:i:s");
-    $stmnt = $pdo->prepare('INSERT INTO comments (comment, date, post_id, user_id) 
+    $stmnt = $pdo->prepare('INSERT INTO comments (comment, date, post_id, user_id)
     VALUES (:comment, :date, :post_id, :user_id)');
 
     if (!$stmnt) {
@@ -30,4 +30,4 @@ if (isset($_POST['new-comment'])) {
     ]);
 }
 
-redirect('/post.php?id=' . $postID);
+redirect('/post.php?id=' . $postID . '&order_by=new');
